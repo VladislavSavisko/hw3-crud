@@ -5,7 +5,7 @@ export const createContactSchema = Joi.object({
   phoneNumber: Joi.string().min(3).max(20).required(),
   email: Joi.string().email().optional(),
   isFavourite: Joi.boolean().optional(),
-  contactType: Joi.string().valid("personal", "work", "other").required(),
+  contactType: Joi.string().valid("personal", "work", "home").required(),
 });
 
 export const updateContactSchema = Joi.object({
@@ -13,5 +13,5 @@ export const updateContactSchema = Joi.object({
   phoneNumber: Joi.string().min(3).max(20).optional(),
   email: Joi.string().email().optional(),
   isFavourite: Joi.boolean().optional(),
-  contactType: Joi.string().valid("personal", "work", "other").optional(),
-});
+  contactType: Joi.string().valid("personal", "work", "home").optional(),
+}).min(1); // щоб PATCH вимагав хоч одне поле

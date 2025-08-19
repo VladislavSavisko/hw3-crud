@@ -4,28 +4,29 @@ import {
   getContactById,
   createContact,
   updateContact,
-  deleteContact
+  deleteContact,
 } from "../controllers/contactsController.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { isValidId } from "../middlewares/isValidId.js";
 import {
   createContactSchema,
-  updateContactSchema
+  updateContactSchema,
 } from "../validation/contactValidation.js";
 
 const router = express.Router();
-
 
 router.get("/", getAllContacts);
 
 router.get("/:contactId", isValidId, getContactById);
 
-
 router.post("/", validateBody(createContactSchema), createContact);
 
-
-router.patch("/:contactId", isValidId, validateBody(updateContactSchema), updateContact);
-
+router.patch(
+  "/:contactId",
+  isValidId,
+  validateBody(updateContactSchema),
+  updateContact
+);
 
 router.delete("/:contactId", isValidId, deleteContact);
 
