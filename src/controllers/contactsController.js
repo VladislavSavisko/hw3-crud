@@ -2,11 +2,32 @@ import createHttpError from "http-errors";
 import * as contactsService from "../services/contacts.js";
 
 export const getAllContacts = async (req, res) => {
-  const contacts = await contactsService.getAllContacts();
+  const {
+    page = 1,
+    perPage = 10,
+    sortBy = "name",
+    sortOrder = "asc",
+    isFavourite,
+    contactType
+  } = req.query;
+
+  
+  const filter = {};
+  if (isFavourite !== undefined) filter.isFavourite = isFavourite === "true";
+  if (contactType) filter.contactType = contactType;
+
+  const result = await contactsService.getAllContacts({
+    page: Number(page),
+    perPage: Number(perPage),
+    sortBy,
+    sortOrder,
+    filter
+  });
+
   res.status(200).json({
     status: 200,
     message: "Successfully found contacts!",
-    data: contacts, // масив без зайвої вкладеності
+    data: result,
   });
 };
 
@@ -18,7 +39,7 @@ export const getContactById = async (req, res) => {
   res.status(200).json({
     status: 200,
     message: `Successfully found contact with id ${contactId}!`,
-    data: contact, // об'єкт без зайвої вкладеності
+    data: contact,
   });
 };
 
