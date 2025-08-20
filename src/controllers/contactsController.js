@@ -89,7 +89,13 @@ export const updateContact = async (req, res) => {
   });
 };
 
-export const deleteContact = async (_req, res) => {
-  // 204 No Content — без тіла
+export const deleteContact = async (req, res) => {
+  const { contactId } = req.params;
+  const deletedContact = await contactsService.deleteContact(contactId);
+
+  if (!deletedContact) {
+    throw createHttpError(404, "Contact not found");
+  }
+
   res.status(204).send();
 };

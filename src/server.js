@@ -11,12 +11,13 @@ const app = express();
 
 app.use(express.json());
 
-// опційно: проста головна сторінка, щоб не лякати 404 у браузері
+// проста головна сторінка
 app.get("/", (_req, res) => {
-  res.send("✅ API працює! Використовуйте /api/contacts");
+  res.send("✅ API працює! Використовуйте /contacts");
 });
 
-app.use("/api/contacts", contactsRouter);
+// маршрути для контактів
+app.use("/contacts", contactsRouter);
 
 // 404 для невідомих маршрутів
 app.use(notFoundHandler);
@@ -28,6 +29,6 @@ const MONGO_URI = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGO
 
 initMongoConnection(MONGO_URI).then(() => {
   app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server running on port ${process.env.PORT || 3000}`);
+    console.log(`🚀 Server running on port ${process.env.PORT || 3000}`);
   });
 });
